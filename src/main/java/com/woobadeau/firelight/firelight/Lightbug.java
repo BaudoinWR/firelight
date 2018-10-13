@@ -1,6 +1,8 @@
 package com.woobadeau.firelight.firelight;
 
 
+import com.woobadeau.tinyengine.things.Halo;
+import com.woobadeau.tinyengine.things.physics.FollowBehavior;
 import com.woobadeau.tinyengine.things.physics.Vector2D;
 import com.woobadeau.tinyengine.things.sprites.Sprite;
 
@@ -14,15 +16,17 @@ public class Lightbug extends Sprite {
     private int wavelength;
 
     private final Random random = new Random();
+    private final int[] rgb;
+    private Halo halo;
 
     public Lightbug() throws IOException {
         super(ImageIO.read(Lightbug.class.getResourceAsStream("/lightbug.png")), 10);
-        move(new Vector2D(random.nextInt(1000), random.nextInt(580)));
         wavelength = random.nextInt(400) + 380;
         System.out.println(wavelength);
-        int[] rgb = ColorManager.getRgb(wavelength);
+        rgb = ColorManager.getRgb(wavelength);
         ColorManager.setupColor(this, rgb);
         scale(-50,50);
+        move(new Vector2D(random.nextInt(1000), random.nextInt(580)));
 
         draw = true;
     }
@@ -38,6 +42,10 @@ public class Lightbug extends Sprite {
     public void update() {
         if (Math.abs(ColorManager.wavelength - wavelength) < 10) {
             ColorManager.activated = false;
+            if (halo == null) {
+                halo = new Halo(rgb[0], rgb[1], rgb[2], 75, 5);
+                halo.getBehaviors().add(new FollowBehavior(this));
+            }
 
             /*
                 TinyEngine.remove(this);

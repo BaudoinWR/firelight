@@ -1,8 +1,10 @@
 package com.woobadeau.firelight.firelight;
 
+import com.woobadeau.tinyengine.things.Halo;
 import com.woobadeau.tinyengine.things.Thing;
 import com.woobadeau.tinyengine.things.ThingMouseListener;
 import com.woobadeau.tinyengine.TinyEngine;
+import com.woobadeau.tinyengine.things.physics.FollowMouseBehavior;
 import com.woobadeau.tinyengine.things.physics.Vector2D;
 
 import java.awt.*;
@@ -21,6 +23,7 @@ public class ColorManager extends Thing implements ThingMouseListener {
     public static boolean activated = true;
 
     public static final int pinkRGB = rgbToInt(new int[]{255,154,254});
+    private Halo halo = null;
 
 
     private ColorManager() {
@@ -51,7 +54,7 @@ public class ColorManager extends Thing implements ThingMouseListener {
 
     @Override
     protected void onCreate() {
-        this.setPosition(new Vector2D(300, 640));
+        this.move(new Vector2D(300, 640));
     }
 
     @Override
@@ -64,6 +67,13 @@ public class ColorManager extends Thing implements ThingMouseListener {
     public void update() {
         if (activated && TinyEngine.mouseDown) {
             updatePosition();
+        }
+        if (!activated && halo == null) {
+            halo = new Halo(color, 100);
+            halo.getBehaviors().add(new FollowMouseBehavior());
+        } else if (activated && halo != null) {
+            halo.destroy();
+            halo = null;
         }
     }
 

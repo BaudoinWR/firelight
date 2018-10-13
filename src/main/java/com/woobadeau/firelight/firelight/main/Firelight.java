@@ -11,11 +11,12 @@ import java.io.IOException;
 public class Firelight {
 
     public static void main(String[] args) throws IOException {
-        new SampleBackground();
+        TinyEngine.debug = true;
         ColorManager.getInstance();
-        new TinyEngine(1024, 740);
+        new SampleBackground();
         new WolfAnimation();
         new Lightbug();
         new Lightbug();
+        new TinyEngine(1024, 740);
     }
 }
