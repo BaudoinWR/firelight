@@ -1,9 +1,9 @@
 package com.woobadeau.firelight.firelight;
 
+import com.woobadeau.tinyengine.TinyEngine;
 import com.woobadeau.tinyengine.things.Halo;
 import com.woobadeau.tinyengine.things.Thing;
-import com.woobadeau.tinyengine.things.ThingMouseListener;
-import com.woobadeau.tinyengine.TinyEngine;
+import com.woobadeau.tinyengine.things.ThingMouseClickListener;
 import com.woobadeau.tinyengine.things.physics.FollowMouseBehavior;
 import com.woobadeau.tinyengine.things.physics.Vector2D;
 
@@ -12,7 +12,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.util.Date;
 
-public class ColorManager extends Thing implements ThingMouseListener {
+public class ColorManager extends Thing implements ThingMouseClickListener {
 
     public static Color color = Color.RED;
     private int previousPosition = 0;
