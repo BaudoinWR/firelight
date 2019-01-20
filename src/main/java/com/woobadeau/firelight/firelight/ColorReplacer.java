@@ -1,8 +1,10 @@
 package com.woobadeau.firelight.firelight;
 
+import com.woobadeau.tinyengine.TinyEngine;
 import com.woobadeau.tinyengine.things.Thing;
+import com.woobadeau.tinyengine.things.ui.Color;
+import com.woobadeau.tinyengine.things.ui.Image;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.awt.image.LookupOp;
@@ -20,11 +22,11 @@ public class ColorReplacer implements Consumer<Thing> {
     @Override
     public void accept(Thing thing) {
         WolfAnimation wolf = (WolfAnimation) thing;
-        BufferedImage image = (BufferedImage) wolf.getImage();
-        Color from = new Color(color[0], color[1], color[2]);
+        Image image = wolf.getImage();
+        Color from = TinyEngine.uiInterfaceProvider.getColor(color[0], color[1], color[2]);
         Color to = ColorManager.color;
         BufferedImageOp lookup = new LookupOp(new ColorMapper(from, to), null);
-        wolf.setImage(lookup.filter(image, null));
+       // wolf.setImage(lookup.filter((BufferedImage)image, null));
     }
 
 

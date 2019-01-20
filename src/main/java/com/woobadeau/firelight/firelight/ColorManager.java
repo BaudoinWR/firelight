@@ -6,15 +6,14 @@ import com.woobadeau.tinyengine.things.Thing;
 import com.woobadeau.tinyengine.things.ThingMouseClickListener;
 import com.woobadeau.tinyengine.things.physics.FollowMouseBehavior;
 import com.woobadeau.tinyengine.things.physics.Vector2D;
+import com.woobadeau.tinyengine.things.ui.Color;
+import com.woobadeau.tinyengine.things.ui.Display;
 
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.image.BufferedImage;
 import java.util.Date;
 
 public class ColorManager extends Thing implements ThingMouseClickListener {
 
-    public static Color color = Color.RED;
+    public static Color color = TinyEngine.uiInterfaceProvider.getRed();
     private int previousPosition = 0;
     private long previousPeak = 0l;
     private boolean isGoingUp = true;
@@ -27,7 +26,7 @@ public class ColorManager extends Thing implements ThingMouseClickListener {
 
 
     private ColorManager() {
-        this.setShape(new Ellipse2D.Double(300, 640, 100, 100));
+        this.setShape(TinyEngine.uiInterfaceProvider.getCircle(300, 640, 100, 100));
     }
 
     public static ColorManager getInstance() {
@@ -43,11 +42,11 @@ public class ColorManager extends Thing implements ThingMouseClickListener {
 
     public static void setupColor(Lightbug lightbug, int[] color) {
         int col = rgbToInt(color);
-        for (int i = 0; i < lightbug.getImage().getWidth(null); i++)
-            for (int j = 0; j < lightbug.getImage().getHeight(null); j++) {
-                int rgb = ((BufferedImage) lightbug.getImage()).getRGB(i, j);
+        for (int i = 0; i < lightbug.getImage().getWidth(); i++)
+            for (int j = 0; j < lightbug.getImage().getHeight(); j++) {
+                int rgb = lightbug.getImage().getRGB(i, j);
                 if (rgb == pinkRGB) {
-                    ((BufferedImage) lightbug.getImage()).setRGB(i,j, col);
+                    lightbug.getImage().setRGB(i,j, col);
                 }
             }
     }
@@ -58,9 +57,9 @@ public class ColorManager extends Thing implements ThingMouseClickListener {
     }
 
     @Override
-    public void draw(Graphics graphics) {
-        graphics.setColor(color);
-        graphics.fillOval(this.getPosition().x, this.getPosition().y, 100, 100);
+    public void draw(Display display) {
+        display.setColor(color);
+        display.fillOval(this.getPosition().x, this.getPosition().y, 100, 100);
     }
 
     @Override
@@ -93,7 +92,7 @@ public class ColorManager extends Thing implements ThingMouseClickListener {
     private void updateColor(long period) {
         wavelength = mapFloat(period, 55, 1000, 380, 780);
         int[] rgb = getRgb(wavelength);
-        color = new Color(rgb[0], rgb[1], rgb[2]);
+        color = TinyEngine.uiInterfaceProvider.getColor(rgb[0], rgb[1], rgb[2]);
     }
 
     public static int[] getRgb(float wavelength) {
