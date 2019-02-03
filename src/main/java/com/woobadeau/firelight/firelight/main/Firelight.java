@@ -13,10 +13,16 @@ public class Firelight {
     public static void main(String[] args) throws IOException {
         TinyEngine.debug = true;
         ColorManager.getInstance();
-        new SampleBackground();
-        new WolfAnimation();
-        new Lightbug();
-        new Lightbug();
-        new TinyEngine(1024, 740);
+       new TinyEngine(1024, 740, () -> {
+           try {
+               new SampleBackground();
+               new WolfAnimation();
+               new Lightbug();
+               new Lightbug();
+           } catch (IOException e) {
+               e.printStackTrace();
+           }
+
+       }).start();
     }
 }

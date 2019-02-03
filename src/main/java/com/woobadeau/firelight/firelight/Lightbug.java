@@ -47,14 +47,14 @@ public class Lightbug extends Sprite {
                 halo.getBehaviors().add(new FollowBehavior(this));
             }
 
-            /*
-                TinyEngine.remove(this);
+
+                this.destroy();
                 try {
                     new Lightbug();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            */
+
         }
     }
 
