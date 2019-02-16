@@ -1,6 +1,7 @@
 package com.woobadeau.firelight.firelight;
 
 
+import com.woobadeau.firelight.firelight.main.Firelight;
 import com.woobadeau.tinyengine.TinyEngine;
 import com.woobadeau.tinyengine.things.Halo;
 import com.woobadeau.tinyengine.things.physics.FollowBehavior;
@@ -26,7 +27,6 @@ public class Lightbug extends Sprite {
         ColorManager.setupColor(this, rgb);
         scale(-50,50);
         move(new Vector2D(random.nextInt(1000), random.nextInt(580)));
-
     }
 
     @Override
@@ -46,6 +46,7 @@ public class Lightbug extends Sprite {
         if (life < 1) {
             this.destroy();
             TinyEngine.spawn(Lightbug::new);
+            Firelight.increaseBattery(0.2);
         }
     }
 

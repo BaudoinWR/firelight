@@ -15,26 +15,18 @@ import java.util.concurrent.ExecutionException;
 
 public class ColorManager extends Thing implements ThingMouseClickListener {
 
-    public static Color color = TinyEngine.uiInterfaceProvider.getRed();
+    public static Color color = TinyEngine.uiInterfaceProvider.getColorRed();
     private int previousPosition = 0;
     private long previousPeak = 0l;
     private boolean isGoingUp = true;
-    private static ColorManager instance;
     public static float wavelength = 780f;
     public static boolean activated = true;
 
     public static final int pinkRGB = rgbToInt(new int[]{255,154,254});
     private CompletableFuture<Halo> halo = null;
 
-    private ColorManager() {
+    public ColorManager() {
         this.setShape(TinyEngine.uiInterfaceProvider.getCircle(300, 640, 100, 100));
-    }
-
-    public static ColorManager getInstance() {
-        if (instance == null) {
-            TinyEngine.spawn(ColorManager::new, i -> instance = i);
-        }
-        return instance;
     }
 
     static int rgbToInt(int[] color) {
