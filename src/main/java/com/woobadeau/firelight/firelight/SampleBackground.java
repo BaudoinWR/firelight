@@ -3,15 +3,32 @@ package com.woobadeau.firelight.firelight;
 import com.woobadeau.tinyengine.ScrollingBackground;
 import com.woobadeau.tinyengine.TinyEngine;
 
-import java.io.IOException;
-
 public class SampleBackground {
-    public SampleBackground() throws IOException {
-        new ScrollingBackground(TinyEngine.uiInterfaceProvider.getImage("/Hills__0000.png"), 6).scale(1024,740);
-        new ScrollingBackground(TinyEngine.uiInterfaceProvider.getImage("/Hills__0001.png"), 4).scale(1024,740);
-        new ScrollingBackground(TinyEngine.uiInterfaceProvider.getImage("/Hills__0002.png"), 2).scale(1024,740);
-        new ScrollingBackground(TinyEngine.uiInterfaceProvider.getImage("/Hills__0003.png"), 1).scale(1024,740);
-        new ScrollingBackground(TinyEngine.uiInterfaceProvider.getImage("/Hills__0004_Sky.png"), 0).scale(1024,740);
+    public SampleBackground()  {
+        TinyEngine.spawn(SampleBackground::bg0, bg -> bg.scale(1024,740));
+        TinyEngine.spawn(SampleBackground::bg1, bg -> bg.scale(1024,740));
+        TinyEngine.spawn(SampleBackground::bg2, bg -> bg.scale(1024,740));
+        TinyEngine.spawn(SampleBackground::bg3, bg -> bg.scale(1024,740));
+        TinyEngine.spawn(SampleBackground::bg4, bg -> bg.scale(1024,740));
     }
 
+    private static ScrollingBackground bg0() {
+        return new ScrollingBackground(TinyEngine.uiInterfaceProvider.getImage("/Hills__0000.png"), 6);
+    }
+
+    private static ScrollingBackground bg1() {
+        return new ScrollingBackground(TinyEngine.uiInterfaceProvider.getImage("/Hills__0001.png"), 4);
+    }
+
+    private static ScrollingBackground bg2() {
+        return new ScrollingBackground(TinyEngine.uiInterfaceProvider.getImage("/Hills__0002.png"), 2);
+    }
+
+    private static ScrollingBackground bg3() {
+        return new ScrollingBackground(TinyEngine.uiInterfaceProvider.getImage("/Hills__0003.png"), 1);
+    }
+
+    private static ScrollingBackground bg4() {
+        return new ScrollingBackground(TinyEngine.uiInterfaceProvider.getImage("/Hills__0004_Sky.png"), 0);
+    }
 }

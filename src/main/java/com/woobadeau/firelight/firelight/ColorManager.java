@@ -23,6 +23,7 @@ public class ColorManager extends Thing implements ThingMouseClickListener {
 
     public static final int pinkRGB = rgbToInt(new int[]{255,154,254});
     private Halo halo = null;
+    private boolean haloActivated = false;
 
 
     private ColorManager() {
@@ -31,7 +32,7 @@ public class ColorManager extends Thing implements ThingMouseClickListener {
 
     public static ColorManager getInstance() {
         if (instance == null) {
-            instance = new ColorManager();
+            TinyEngine.spawn(ColorManager::new, i -> instance = i);
         }
         return instance;
     }
@@ -67,10 +68,14 @@ public class ColorManager extends Thing implements ThingMouseClickListener {
         if (activated && TinyEngine.mouseDown) {
             updatePosition();
         }
-        if (!activated && halo == null) {
-            halo = new Halo(color, 100);
-            halo.getBehaviors().add(new FollowMouseBehavior());
+        if (!activated && !haloActivated) {
+            haloActivated = true;
+            TinyEngine.spawn(() -> new Halo(color, 100), h -> {
+                h.getBehaviors().add(new FollowMouseBehavior()::follow);
+                halo = h;
+            });
         } else if (activated && halo != null) {
+            haloActivated = false;
             halo.destroy();
             halo = null;
         }

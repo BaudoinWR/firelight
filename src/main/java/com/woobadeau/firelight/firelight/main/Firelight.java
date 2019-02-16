@@ -7,22 +7,16 @@ import com.woobadeau.firelight.firelight.WolfAnimation;
 import com.woobadeau.tinyengine.*;
 import com.woobadeau.tinyengine.things.ui.swing.SwingUIInterfaceProvider;
 
-import java.io.IOException;
-
 public class Firelight {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         TinyEngine.debug = true;
 
         new TinyEngine(1024, 740, () -> {
-            try {
-                new SampleBackground();
-                new WolfAnimation();
-                new Lightbug();
-                new Lightbug();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            new SampleBackground();
+            TinyEngine.spawn(WolfAnimation::new, null);
+            TinyEngine.spawn(Lightbug::new, null);
+            TinyEngine.spawn(Lightbug::new, null);
         }, new SwingUIInterfaceProvider()).start();
         TinyEngine.debug = false;
         ColorManager.getInstance();

@@ -7,20 +7,16 @@ import com.woobadeau.tinyengine.things.physics.FollowBehavior;
 import com.woobadeau.tinyengine.things.physics.Vector2D;
 import com.woobadeau.tinyengine.things.sprites.Sprite;
 import com.woobadeau.tinyengine.things.ui.Display;
-
-import java.awt.*;
-import java.io.IOException;
 import java.util.Random;
 
 public class Lightbug extends Sprite {
-    private boolean draw = false;
     private int wavelength;
 
     private final Random random = new Random();
     private final int[] rgb;
     private Halo halo;
 
-    public Lightbug() throws IOException {
+    public Lightbug() {
         super(TinyEngine.uiInterfaceProvider.getImage("/lightbug.png"), 10);
         wavelength = random.nextInt(400) + 380;
         System.out.println(wavelength);
@@ -29,14 +25,11 @@ public class Lightbug extends Sprite {
         scale(-50,50);
         move(new Vector2D(random.nextInt(1000), random.nextInt(580)));
 
-        draw = true;
     }
 
     @Override
     public void draw(Display display) {
-        if (draw) {
-            super.draw(display);
-        }
+        super.draw(display);
     }
 
     @Override
@@ -45,18 +38,14 @@ public class Lightbug extends Sprite {
             ColorManager.activated = false;
             addHalo();
             this.destroy();
-            try {
-                new Lightbug();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            TinyEngine.spawn(Lightbug::new, null);
         }
     }
 
     private void addHalo() {
         if (halo == null) {
             halo = new Halo(rgb[0], rgb[1], rgb[2], 75, 5);
-            halo.getBehaviors().add(new FollowBehavior(this));
+            halo.getBehaviors().add(new FollowBehavior(this)::follow);
             this.getThings().add(halo);
         }
     }
