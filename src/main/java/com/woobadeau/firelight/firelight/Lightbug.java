@@ -8,13 +8,15 @@ import com.woobadeau.tinyengine.things.physics.Vector2D;
 import com.woobadeau.tinyengine.things.sprites.Sprite;
 import com.woobadeau.tinyengine.things.ui.Display;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
 
 public class Lightbug extends Sprite {
     private int wavelength;
 
     private final Random random = new Random();
     private final int[] rgb;
-    private Halo halo;
+    private CompletableFuture<Halo> halo = null;
+    private int life = 10;
 
     public Lightbug() {
         super(TinyEngine.uiInterfaceProvider.getImage("/lightbug.png"), 10);
@@ -37,16 +39,23 @@ public class Lightbug extends Sprite {
         if (Math.abs(ColorManager.wavelength - wavelength) < 10) {
             ColorManager.activated = false;
             addHalo();
+            if (this.getShape().contains(TinyEngine.mousePosition)) {
+                --life;
+            }
+        }
+        if (life < 1) {
             this.destroy();
-            TinyEngine.spawn(Lightbug::new, null);
+            TinyEngine.spawn(Lightbug::new);
         }
     }
 
     private void addHalo() {
         if (halo == null) {
-            halo = new Halo(rgb[0], rgb[1], rgb[2], 75, 5);
-            halo.getBehaviors().add(new FollowBehavior(this)::follow);
-            this.getThings().add(halo);
+            halo = TinyEngine.spawn(() -> new Halo(rgb[0], rgb[1], rgb[2], 75, 5),
+                halo -> {
+                    halo.getBehaviors().add(new FollowBehavior(this)::follow);
+                    this.getThings().add(halo);
+            });
         }
     }
 

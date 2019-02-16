@@ -10,6 +10,8 @@ import com.woobadeau.tinyengine.things.ui.Color;
 import com.woobadeau.tinyengine.things.ui.Display;
 
 import java.util.Date;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class ColorManager extends Thing implements ThingMouseClickListener {
 
@@ -22,9 +24,7 @@ public class ColorManager extends Thing implements ThingMouseClickListener {
     public static boolean activated = true;
 
     public static final int pinkRGB = rgbToInt(new int[]{255,154,254});
-    private Halo halo = null;
-    private boolean haloActivated = false;
-
+    private CompletableFuture<Halo> halo = null;
 
     private ColorManager() {
         this.setShape(TinyEngine.uiInterfaceProvider.getCircle(300, 640, 100, 100));
@@ -68,15 +68,16 @@ public class ColorManager extends Thing implements ThingMouseClickListener {
         if (activated && TinyEngine.mouseDown) {
             updatePosition();
         }
-        if (!activated && !haloActivated) {
-            haloActivated = true;
-            TinyEngine.spawn(() -> new Halo(color, 100), h -> {
+        if (!activated && halo == null) {
+            halo = TinyEngine.spawn(() -> new Halo(color, 100), h -> {
                 h.getBehaviors().add(new FollowMouseBehavior()::follow);
-                halo = h;
             });
         } else if (activated && halo != null) {
-            haloActivated = false;
-            halo.destroy();
+            try {
+                halo.get().destroy();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
             halo = null;
         }
     }
