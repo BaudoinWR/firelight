@@ -39,7 +39,7 @@ public class Lightbug extends Sprite {
         if (Math.abs(ColorManager.wavelength - wavelength) < 10) {
             ColorManager.activated = false;
             addHalo();
-            if (this.getShape().contains(TinyEngine.mousePosition)) {
+            if (TinyEngine.mousePosition != null && this.getShape().contains(TinyEngine.mousePosition)) {
                 --life;
             }
         }
