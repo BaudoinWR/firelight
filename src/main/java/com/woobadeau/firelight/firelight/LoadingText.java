@@ -10,7 +10,9 @@ public class LoadingText extends Text {
     int dots = 0;
 
     public LoadingText() {
-        super("Loading", TinyEngine.uiInterfaceProvider.getFont("Arial", 2, 50), TinyEngine.uiInterfaceProvider.getColorGreen(), new Vector2D(400, 300));
+        super("Loading", TinyEngine.uiInterfaceProvider.getFont("Arial", 2, 50),
+                TinyEngine.uiInterfaceProvider.getColorGreen(),
+                new Vector2D(400, 300));
     }
 
     @Override

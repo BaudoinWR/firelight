@@ -9,17 +9,16 @@ import com.woobadeau.firelight.firelight.WolfAnimation;
 import com.woobadeau.tinyengine.TinyEngine;
 import com.woobadeau.tinyengine.things.ProgressBar;
 import com.woobadeau.tinyengine.things.ui.swing.SwingUIInterfaceProvider;
-
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class Firelight {
 
-    public static final int WIDTH = 1024;
-    public static final int HEIGHT = 740;
+    private static final int WIDTH = 1024;
+    private static final int HEIGHT = 740;
     private static double batteryLevel = 1;
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         TinyEngine.debug = true;
         TinyEngine.setup(WIDTH, HEIGHT, Firelight::transition, new SwingUIInterfaceProvider());
         TinyEngine.start();
@@ -37,15 +36,11 @@ public class Firelight {
         batteryLevel -= amount;
         if (batteryLevel < 0) {
             batteryLevel = 1;
-            try {
-                restart();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            restart();
         }
     }
 
-    private static void restart() throws InterruptedException {
+    private static void restart() {
         TinyEngine.setup(Firelight::transition);
         TinyEngine.restart();
     }
