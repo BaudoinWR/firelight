@@ -28,7 +28,7 @@ public class SampleBackground {
         return new ScrollingBackground(TinyEngine.uiInterfaceProvider.getImage("/Hills__0003.png"), 1);
     }
 
-    private static ScrollingBackground bg4() {
+    public static ScrollingBackground bg4() {
         return new ScrollingBackground(TinyEngine.uiInterfaceProvider.getImage("/Hills__0004_Sky.png"), 0);
     }
 }
